@@ -7,22 +7,23 @@
 * Related Document: See README.md
 *
 *******************************************************************************
-* (c) 2018-2020, Cypress Semiconductor Corporation. All rights reserved.
-*******************************************************************************
-* This software, including source code, documentation and related materials
-* ("Software"), is owned by Cypress Semiconductor Corporation or one of its
-* subsidiaries ("Cypress") and is protected by and subject to worldwide patent
-* protection (United States and foreign), United States copyright laws and
-* international treaty provisions. Therefore, you may use this Software only
-* as provided in the license agreement accompanying the software package from
-* which you obtained this Software ("EULA").
+* Copyright 2018-2021, Cypress Semiconductor Corporation (an Infineon company) or
+* an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
+* This software, including source code, documentation and related
+* materials ("Software") is owned by Cypress Semiconductor Corporation
+* or one of its affiliates ("Cypress") and is protected by and subject to
+* worldwide patent protection (United States and foreign),
+* United States copyright laws and international treaty provisions.
+* Therefore, you may use this Software only as provided in the license
+* agreement accompanying the software package from which you
+* obtained this Software ("EULA").
 * If no EULA applies, Cypress hereby grants you a personal, non-exclusive,
-* non-transferable license to copy, modify, and compile the Software source
-* code solely for use in connection with Cypress's integrated circuit products.
-* Any reproduction, modification, translation, compilation, or representation
-* of this Software except as specified above is prohibited without the express
-* written permission of Cypress.
+* non-transferable license to copy, modify, and compile the Software
+* source code solely for use in connection with Cypress's
+* integrated circuit products.  Any reproduction, modification, translation,
+* compilation, or representation of this Software except as specified
+* above is prohibited without the express written permission of Cypress.
 *
 * Disclaimer: THIS SOFTWARE IS PROVIDED AS-IS, WITH NO WARRANTY OF ANY KIND,
 * EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT, IMPLIED
@@ -33,9 +34,9 @@
 * not authorize its products for use in any products where a malfunction or
 * failure of the Cypress product may reasonably be expected to result in
 * significant property damage, injury or death ("High Risk Product"). By
-* including Cypress's product in a High Risk Product, the manufacturer of such
-* system or application assumes all risk of such use and in doing so agrees to
-* indemnify Cypress against all liability.
+* including Cypress's product in a High Risk Product, the manufacturer
+* of such system or application assumes all risk of such use and in doing
+* so agrees to indemnify Cypress against all liability.
 *******************************************************************************/
 
 #include "cycfg_qspi_memslot.h"
@@ -43,6 +44,7 @@
 #include "cybsp.h"
 #include "cy_retarget_io.h"
 #include "cy_serial_flash_qspi.h"
+#include <inttypes.h>
 
 /*******************************************************************************
 * Macros
@@ -75,7 +77,7 @@ void check_status(char *message, uint32_t status)
     {
         printf("\r\n================================================================================\r\n");
         printf("\nFAIL: %s\r\n", message);
-        printf("Error Code: 0x%08lX\r\n", status);
+        printf("Error Code: 0x%08"PRIX32"\n", status);
         printf("\r\n================================================================================\r\n");
         
         /* On failure, turn the LED ON */
@@ -99,7 +101,7 @@ void check_status(char *message, uint32_t status)
 *******************************************************************************/
 void print_array(char *message, uint8_t *buf, uint32_t size)
 {
-    printf("\r\n%s (%lu bytes):\r\n", message, size);
+    printf("\r\n%s (%"PRIu32" bytes):\r\n", message, size);
     printf("-------------------------\r\n");
 
     for (uint32_t index = 0; index < size; index++)
