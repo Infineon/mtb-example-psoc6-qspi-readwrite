@@ -1,12 +1,13 @@
-/******************************************************************************
+/*******************************************************************************
 * File Name: main.c
 *
-* Description: This is the source code for the CE220823 - PSoC 6 MCU QSPI Flash
-*              Read and Write example for ModusToolbox.
+* Description: This is the source code for the Serial Flash Read and Write example
+* for ModusToolbox.
 *
 * Related Document: See README.md
 *
-*******************************************************************************
+*
+********************************************************************************
 * Copyright 2018-2022, Cypress Semiconductor Corporation (an Infineon company) or
 * an affiliate of Cypress Semiconductor Corporation.  All rights reserved.
 *
@@ -39,16 +40,21 @@
 * so agrees to indemnify Cypress against all liability.
 *******************************************************************************/
 
+/*******************************************************************************
+* Header Files
+*******************************************************************************/
 #include "cycfg_qspi_memslot.h"
 #include "cyhal.h"
 #include "cybsp.h"
 #include "cy_retarget_io.h"
 #include "cy_serial_flash_qspi.h"
 #include <inttypes.h>
+#include <string.h>
+
 
 /*******************************************************************************
 * Macros
-********************************************************************************/
+*******************************************************************************/
 #define PACKET_SIZE             (64u)     /* Memory Read/Write size */
 
 /* Used when an array of data is printed on the console */
@@ -60,26 +66,43 @@
 
 
 /*******************************************************************************
+* Global Variables
+*******************************************************************************/
+
+
+/*******************************************************************************
+* Function Prototypes
+*******************************************************************************/
+
+
+/*******************************************************************************
+* Function Definitions
+*******************************************************************************/
+
+/*******************************************************************************
 * Function Name: check_status
-****************************************************************************//**
+********************************************************************************
 * Summary:
 *  Prints the message, indicates the non-zero status by turning the LED on, and
 *  asserts the non-zero status.
 *
-* Parameters: 
+* Parameters:
 *  message - message to print if status is non-zero.
 *  status - status for evaluation.
+*
+* Return:
+*  void
 *
 *******************************************************************************/
 void check_status(char *message, uint32_t status)
 {
     if (0u != status)
     {
-        printf("\r\n================================================================================\r\n");
+        printf("\r\n=====================================================\r\n");
         printf("\nFAIL: %s\r\n", message);
         printf("Error Code: 0x%08"PRIX32"\n", status);
-        printf("\r\n================================================================================\r\n");
-        
+        printf("\r\n=====================================================\r\n");
+
         /* On failure, turn the LED ON */
         cyhal_gpio_write(CYBSP_USER_LED, CYBSP_LED_STATE_ON);
         while(true); /* Wait forever here when error occurs. */
@@ -89,7 +112,7 @@ void check_status(char *message, uint32_t status)
 
 /*******************************************************************************
 * Function Name: print_array
-****************************************************************************//**
+********************************************************************************
 * Summary:
 *  Prints the content of the buffer to the UART console.
 *
@@ -97,6 +120,9 @@ void check_status(char *message, uint32_t status)
 *  message - message to print before array output
 *  buf - buffer to print on the console.
 *  size - size of the buffer.
+*
+* Return:
+*  void
 *
 *******************************************************************************/
 void print_array(char *message, uint8_t *buf, uint32_t size)
@@ -138,35 +164,47 @@ int main(void)
     cy_rslt_t result;
     uint8_t tx_buf[PACKET_SIZE];
     uint8_t rx_buf[PACKET_SIZE];
-    uint32_t ext_mem_address = 0x00;    
+    uint32_t ext_mem_address;
     size_t sectorSize;
-
     /* Initialize the device and board peripherals */
     result = cybsp_init();
-    CY_ASSERT(result == CY_RSLT_SUCCESS);
-    
+    /* Board initialization failed. Stop program execution */
+    if (result != CY_RSLT_SUCCESS)
+    {
+        CY_ASSERT(0);
+    }
+
     /* Enable global interrupts */
     __enable_irq();
-    
+
     /* Initialize retarget-io to use the debug UART port */
-    cy_retarget_io_init(CYBSP_DEBUG_UART_TX, CYBSP_DEBUG_UART_RX, CY_RETARGET_IO_BAUDRATE);
+    result = cy_retarget_io_init(CYBSP_DEBUG_UART_TX, CYBSP_DEBUG_UART_RX,
+        CY_RETARGET_IO_BAUDRATE);
+    check_status("retarget-io initialization failed", result);
 
     /* \x1b[2J\x1b[;H - ANSI ESC sequence for clear screen */
     printf("\x1b[2J\x1b[;H");
-    printf("*************** CE220823 - PSoC 6 MCU QSPI Flash Read and Write ***************\r\n\n");
-    
+    printf("****************** "
+           "Serial Flash Read and Write "
+           "****************** \r\n\n");
+
     /* Initialize the User LED */
     result = cyhal_gpio_init(CYBSP_USER_LED, CYHAL_GPIO_DIR_OUTPUT,
               CYHAL_GPIO_DRIVE_STRONG, CYBSP_LED_STATE_OFF);
     check_status("User LED initialization failed", result);
-        
-    result = cy_serial_flash_qspi_init(smifMemConfigs[MEM_SLOT_NUM], CYBSP_QSPI_D0,
-              CYBSP_QSPI_D1, CYBSP_QSPI_D2, CYBSP_QSPI_D3, NC, NC, NC, NC,
-              CYBSP_QSPI_SCK, CYBSP_QSPI_SS, QSPI_BUS_FREQUENCY_HZ);
+
+    /* Initialize the Serial flash */
+    result = cy_serial_flash_qspi_init(smifMemConfigs[MEM_SLOT_NUM],
+            CYBSP_QSPI_D0, CYBSP_QSPI_D1, CYBSP_QSPI_D2, CYBSP_QSPI_D3, NC, NC,
+            NC, NC, CYBSP_QSPI_SCK, CYBSP_QSPI_SS, QSPI_BUS_FREQUENCY_HZ);
     check_status("Serial Flash initialization failed", result);
-   
+
+    /* Use last sector to erase for flash operation */
+    ext_mem_address = (smifMemConfigs[0]->deviceCfg->memSize/2 -
+                               smifMemConfigs[0]->deviceCfg->eraseSize *2);
+
     sectorSize = cy_serial_flash_qspi_get_erase_size(ext_mem_address);
-    printf("\r\nTotal Flash Size: %u bytes\r\n", cy_serial_flash_qspi_get_size());
+    printf("\r\nTotal Flash Size:%u bytes\r\n",cy_serial_flash_qspi_get_size());
 
     /* Erase before write */
     printf("\r\n1. Erasing %u bytes of memory\r\n", sectorSize);
@@ -174,14 +212,14 @@ int main(void)
     check_status("Erasing memory failed", result);
 
     /* Read after Erase to confirm that all data is 0xFF */
-    printf("\r\n2. Reading after Erase and verifying that each byte is 0xFF\r\n");
+    printf("\r\n2.Reading after Erase & verifying that each byte is 0xFF\r\n");
     result = cy_serial_flash_qspi_read(ext_mem_address, PACKET_SIZE, rx_buf);
-    check_status("Reading memory failed", result);    
+    check_status("Reading memory failed", result);
     print_array("Received Data", rx_buf, PACKET_SIZE);
     memset(tx_buf, FLASH_DATA_AFTER_ERASE, PACKET_SIZE);
     check_status("Flash contains data other than 0xFF after erase",
             memcmp(tx_buf, rx_buf, PACKET_SIZE));
-    
+
     /* Prepare the TX buffer */
     for (uint32_t index = 0; index < PACKET_SIZE; index++)
     {
@@ -201,12 +239,12 @@ int main(void)
     print_array("Received Data", rx_buf, PACKET_SIZE);
 
     /* Check if the transmitted and received arrays are equal */
-    check_status("Read data does not match with written data. Read/Write operation failed.",
-            memcmp(tx_buf, rx_buf, PACKET_SIZE));
+    check_status("Read data does not match with written data. Read/Write "
+            "operation failed.", memcmp(tx_buf, rx_buf, PACKET_SIZE));
 
-    printf("\r\n================================================================================\r\n");
+    printf("\r\n=========================================================\r\n");
     printf("\r\nSUCCESS: Read data matches with written data!\r\n");
-    printf("\r\n================================================================================\r\n");
+    printf("\r\n=========================================================\r\n");
 
     for (;;)
     {
