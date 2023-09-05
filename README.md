@@ -4,7 +4,7 @@ This code example demonstrates interfacing an external NOR flash memory using se
 
 [View this README on GitHub.](https://github.com/Infineon/mtb-example-serial-flash-readwrite)
 
-[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMjA4MjMiLCJTcGVjIE51bWJlciI6IjAwMi0yMDgyMyIsIkRvYyBUaXRsZSI6IlNlcmlhbCBmbGFzaCByZWFkIGFuZCB3cml0ZSIsInJpZCI6InZhaXIiLCJEb2MgdmVyc2lvbiI6IjMuMi4wIiwiRG9jIExhbmd1YWdlIjoiRW5nbGlzaCIsIkRvYyBEaXZpc2lvbiI6Ik1DRCIsIkRvYyBCVSI6IklDVyIsIkRvYyBGYW1pbHkiOiJQU09DIn0=)
+[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMjA4MjMiLCJTcGVjIE51bWJlciI6IjAwMi0yMDgyMyIsIkRvYyBUaXRsZSI6IlNlcmlhbCBmbGFzaCByZWFkIGFuZCB3cml0ZSIsInJpZCI6InZhaXIiLCJEb2MgdmVyc2lvbiI6IjMuMi4xIiwiRG9jIExhbmd1YWdlIjoiRW5nbGlzaCIsIkRvYyBEaXZpc2lvbiI6Ik1DRCIsIkRvYyBCVSI6IklDVyIsIkRvYyBGYW1pbHkiOiJQU09DIn0=)
 
 
 ## Requirements
@@ -12,7 +12,7 @@ This code example demonstrates interfacing an external NOR flash memory using se
 - [ModusToolbox&trade; software](https://www.infineon.com/modustoolbox) v3.0
 - Board support package (BSP) minimum required version for :
    - PSoC&trade; 6 MCU: v4.0.0
-   - CYW920829M2EVK-02: v1.0.0. Beta4
+   - CYW920829M2EVK-02: v1.0.1
 - Programming language: C
 - Associated parts: All [PSoC&trade; 6 MCU](https://www.infineon.com/cms/en/product/microcontroller/32-bit-psoc-arm-cortex-microcontroller/psoc-6-32-bit-arm-cortex-m4-mcu) parts and [AIROC&trade; CYW20829 Bluetooth&reg; LE SoC](https://www.infineon.com/cms/en/product/promopages/airoc20829)
 
@@ -26,7 +26,8 @@ This code example demonstrates interfacing an external NOR flash memory using se
 
 ## Supported kits (make variable 'TARGET')
 
-- [PSoC&trade; 6 Wi-Fi Bluetooth&reg; prototyping kit](https://www.infineon.com/CY8CPROTO-062-4343W) (`CY8CPROTO-062-4343W`)
+- [PSoC&trade; 6 Wi-Fi Bluetooth&reg; prototyping kit](https://www.infineon.com/CY8CPROTO-062-4343W) (`CY8CPROTO-062-4343W`) - Default value of `TARGET`
+- [AIROC&trade; CYW20829 Bluetooth&reg; LE evaluation kit](https://www.infineon.com/CYW920829M2EVK-02) (`CYW920829M2EVK-02`)
 - [PSoC&trade; 6 Wi-Fi Bluetooth&reg; pioneer kit](https://www.infineon.com/CY8CKIT-062-WIFI-BT) (`CY8CKIT-062-WIFI-BT`)
 - [PSoC&trade; 6 Bluetooth&reg; LE pioneer kit](https://www.infineon.com/CY8CKIT-062-BLE) (`CY8CKIT-062-BLE`)
 - [PSoC&trade; 62S2 Wi-Fi Bluetooth&reg; pioneer kit](https://www.infineon.com/CY8CKIT-062S2-43012) (`CY8CKIT-062S2-43012`)
@@ -37,7 +38,6 @@ This code example demonstrates interfacing an external NOR flash memory using se
 - [PSoC&trade; 64 "Secure Boot" prototyping kit](https://www.infineon.com/CY8CPROTO-064B0S3) (`CY8CPROTO-064B0S3`)
 - [PSoC&trade; 62S4 pioneer kit](https://www.infineon.com/CY8CKIT-062S4) (`CY8CKIT-062S4`)
 - [PSoC&trade; 62S2 evaluation kit](https://www.infineon.com/CY8CEVAL-062S2) (`CY8CEVAL-062S2`, `CY8CEVAL-062S2-LAI-4373M2`)
-- AIROC&trade; CYW20829 Bluetooth&reg; LE evaluation kit (`CYW920829M2EVK-02`)
 
 ## Hardware setup
 
@@ -260,6 +260,7 @@ Version | Description of change
 3.0.0   | Major update to support ModusToolbox™ v3.0. This version is not backward compatible with previous versions of ModusToolbox™
 3.1.0   | Added BSP support for CYW920829M2EVB-01
 3.2.0   | Removed CYW920829M2EVB-01 from supported kits <br> Added support for CYW920829M2EVK-02
+3.2.1   | Readme Updated
 
 ---------------------------------------------------------
 
