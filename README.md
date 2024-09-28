@@ -4,12 +4,12 @@ This code example demonstrates interfacing an external NOR flash memory using se
 
 [View this README on GitHub.](https://github.com/Infineon/mtb-example-serial-flash-readwrite)
 
-[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMjA4MjMiLCJTcGVjIE51bWJlciI6IjAwMi0yMDgyMyIsIkRvYyBUaXRsZSI6IlNlcmlhbCBmbGFzaCByZWFkIGFuZCB3cml0ZSIsInJpZCI6InZhaXIiLCJEb2MgdmVyc2lvbiI6IjMuNC4wIiwiRG9jIExhbmd1YWdlIjoiRW5nbGlzaCIsIkRvYyBEaXZpc2lvbiI6Ik1DRCIsIkRvYyBCVSI6IklDVyIsIkRvYyBGYW1pbHkiOiJQU09DIn0=)
+[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyMjA4MjMiLCJTcGVjIE51bWJlciI6IjAwMi0yMDgyMyIsIkRvYyBUaXRsZSI6IlNlcmlhbCBmbGFzaCByZWFkIGFuZCB3cml0ZSIsInJpZCI6InZhaXIiLCJEb2MgdmVyc2lvbiI6IjMuNC4xIiwiRG9jIExhbmd1YWdlIjoiRW5nbGlzaCIsIkRvYyBEaXZpc2lvbiI6Ik1DRCIsIkRvYyBCVSI6IklDVyIsIkRvYyBGYW1pbHkiOiJQU09DIn0=)
 
 
 ## Requirements
 
-- [ModusToolbox&trade;](https://www.infineon.com/modustoolbox) v3.1 or later (tested with v3.1)
+- [ModusToolbox&trade;](https://www.infineon.com/modustoolbox) v3.2 or later (tested with v3.2)
 - Board support package (BSP) minimum required version for :
    - PSoC&trade; 6 MCU: v4.0.0
    - CYW920829M2EVK-02: v1.0.1
@@ -22,8 +22,8 @@ This code example demonstrates interfacing an external NOR flash memory using se
 
 - GNU Arm&reg; Embedded Compiler v11.3.1 (`GCC_ARM`) – Default value of `TOOLCHAIN`
 
-- Arm&reg; Compiler v6.16 (`ARM`)
-- IAR C/C++ Compiler v9.30.1 (`IAR`)
+- Arm&reg; Compiler v6.22 (`ARM`)
+- IAR C/C++ Compiler v9.50.2 (`IAR`)
 
 
 
@@ -299,6 +299,7 @@ Version | Description of change
 3.2.1   | Readme Updated
 3.3.0   | Added BSP support for CY8CPROTO-062S2-43439, KIT_XMC71_EVK_LITE_V1 and KIT_XMC72_EVK
 3.4.0   | Added BSP support for KIT_XMC72_EVK_MUR_43439M2, CYW989829M2EVB-01
+3.4.1   | Disabled D-cache for XMC7000 based BSPs
 
 All referenced product or service names and trademarks are the property of their respective owners.
 
